@@ -3,17 +3,17 @@ import { IoCloseSharp } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import { AddContext } from "../Context/AddContext";
 
-const Drawer_First = ({ drawerIsOpen, setDrawerIsOpen }) => {
-  const {
-    cartItems,
-    removeFromCart,
-    clearCart,
-    increaseQuantity,
-    decreaseQuantity,
-  } = useContext(AddContext);
+const Drawer_First = ({ isOpen, setIsOpen }) => {
+  // const {
+  //   cartItems,
+  //   removeFromCart,
+  //   clearCart,
+  //   increaseQuantity,
+  //   decreaseQuantity,
+  // } = useContext(AddContext);
   return (
     <AnimatePresence>
-      {drawerIsOpen && (
+      {isOpen && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -21,8 +21,8 @@ const Drawer_First = ({ drawerIsOpen, setDrawerIsOpen }) => {
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black z-40"
-            onClick={() => setDrawerIsOpen(false)}
+            className="fixed inset-0 bg-black/50"
+            onClick={() => setIsOpen(false)}
           />
 
           <motion.div
@@ -30,13 +30,13 @@ const Drawer_First = ({ drawerIsOpen, setDrawerIsOpen }) => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.4 }}
-            className="fixed top-0 right-0 h-full w-96 bg-white shadow-lg z-50 flex flex-col"
+            className="fixed top-0 right-0 bottom-0 h-screen w-96 bg-white/20 backdrop-blur-lg shadow-lg z-40 flex flex-col"
           >
             {/* Header */}
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold">Your Cart</h2>
+            <div className="flex justify-between items-center bg-black p-4 border-b">
+              <h2 className="text-lg font-semibold text-gray-500">Your Cart</h2>
               <button
-                onClick={() => setDrawerIsOpen(false)}
+                onClick={() => setIsOpen(false)}
                 className="text-gray-600 hover:text-black"
               >
                 <IoCloseSharp size={24} />
@@ -44,7 +44,7 @@ const Drawer_First = ({ drawerIsOpen, setDrawerIsOpen }) => {
             </div>
 
             {/* Cart items */}
-            <div className="p-4 space-y-3 overflow-y-auto flex-1">
+            {/* <div className="p-4 space-y-3 overflow-y-auto flex-1">
               {cartItems?.length === 0 ? (
                 <p className="p-4">Your cart is empty.</p>
               ) : (
@@ -88,10 +88,10 @@ const Drawer_First = ({ drawerIsOpen, setDrawerIsOpen }) => {
                   </div>
                 ))
               )}
-            </div>
+            </div> */}
 
             {/* Footer */}
-            {cartItems?.length > 0 && (
+            {/* {cartItems?.length > 0 && (
               <div className="p-4 border-t space-y-3">
                 <p className="text-right font-semibold">
                   Subtotal: $
@@ -106,7 +106,7 @@ const Drawer_First = ({ drawerIsOpen, setDrawerIsOpen }) => {
                   Clear Cart
                 </button>
               </div>
-            )}
+            )} */}
           </motion.div>
         </>
       )}

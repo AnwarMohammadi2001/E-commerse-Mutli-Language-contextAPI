@@ -12,6 +12,7 @@ const resources = {
       contact: "Contact",
       login: "Login",
       logout: "Logout",
+      userDashboard: "User Dashboard",
     },
   },
   fa: {
@@ -23,6 +24,7 @@ const resources = {
       contact: "تماس",
       login: "ورود",
       logout: "خروج",
+      userDashboard: "داشبورد کاربر",
     },
   },
 };

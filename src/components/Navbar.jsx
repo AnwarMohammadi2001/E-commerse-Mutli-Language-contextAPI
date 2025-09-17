@@ -1,42 +1,57 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./LanguageSwitcher";
-import { FaShoppingCart } from "react-icons/fa";
+import { BsHandbag } from "react-icons/bs";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { ImLeaf } from "react-icons/im";
+
 import {
   SignedIn,
   SignedOut,
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-
+import { FiUser } from "react-icons/fi";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { LanguageContext } from "../Context/LanguageContext";
+import Drawer from "./Drawer";
+import Drawer_First from "./Drawer_First";
+import DarkModeToggler from "./DarkModeToggler";
 const Navbar = () => {
   const { i18n } = useTranslation();
-  const { lang } = useParams();
+  const { language } = useContext(LanguageContext); // get current language
   const defaultLang = "en";
+  const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { name: i18n.t("home"), path: "home" },
+    { name: i18n.t("home"), path: "/" },
     { name: i18n.t("services"), path: "services" },
     { name: i18n.t("about"), path: "about" },
     { name: i18n.t("blog"), path: "blog" },
   ];
 
+  // Determine path based on current language
   const getPath = (path) => {
-    if (!lang || lang === defaultLang) return `/${path}`;
-    return `/${lang}/${path}`;
+    // Default language: do not prefix
+    if (language === defaultLang) return `/${path}`;
+    // Other languages: could optionally prefix (if you want)
+    return `/${path}`; // keep it simple, no prefix in URL
   };
 
   return (
-    <nav className="flex items-center justify-between px-6 py-3 shadow-md bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
-      <div className="text-2xl font-bold">Tamadon</div>
+    <nav className="grid fixed z-40 left-0 right-0 top-0 grid-cols-3 px-6 py-3 shadow-md bg-white/10 backdrop-blur-2xl transition-colors duration-500 text-gray-800 dark:text-white">
+      {/* Logo */}
+      <div className="text-2xl font-bold  flex items-center text-gray-200 gap-x-2">
+        <ImLeaf className="text-green-500 " /> E-Shop
+      </div>
 
-      <ul className="hidden md:flex gap-6">
+      {/* Navigation Items */}
+      <ul className="hidden md:flex justify-center items-center gap-6">
         {navItems.map((item, idx) => (
           <li key={idx}>
             <Link
               to={getPath(item.path)}
-              className="hover:text-blue-500 transition-colors"
+              className="hover:text-blue-500 text-gray-200 font-semibold transition-colors"
             >
               {item.name}
             </Link>
@@ -44,22 +59,44 @@ const Navbar = () => {
         ))}
       </ul>
 
-      <div className="flex items-center gap-4">
+      {/* Actions */}
+      <div className="flex items-center  justify-end gap-x-4">
+        {/* Language Switcher */}
+        <SignedIn>
+          <Link
+            to="/dashboard"
+            className="hover:text-blue-500 text-green-500 font-semibold flex items-center gap-x-2 transition-colors"
+          >
+            <MdOutlineDashboardCustomize />
+            {i18n.t("userDashboard")}
+          </Link>
+        </SignedIn>
+        <DarkModeToggler />
         <LanguageSwitcher />
-        <div className="relative">
-          <FaShoppingCart className="text-2xl cursor-pointer" />
+
+        {/* Shopping Cart */}
+        <div onClick={() => setIsOpen(true)} className="relative">
+          <BsHandbag className="text-2xl cursor-pointer text-gray-200" />
+          {/* Example badge */}
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+            2
+          </span>
         </div>
+
+        {/* Clerk Auth */}
         <SignedOut>
           <SignInButton>
-            <button className="px-3 py-1 border rounded">
-              {i18n.t("login")}
+            <button className="p-1 border rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+              <FiUser className="" size={24} />
             </button>
           </SignInButton>
         </SignedOut>
+
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
       </div>
+      {isOpen && <Drawer_First isOpen={isOpen} setIsOpen={setIsOpen} />}
     </nav>
   );
 };

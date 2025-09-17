@@ -3,13 +3,13 @@ import { IoCloseSharp } from "react-icons/io5";
 import { AppContext } from "../Context/AppContext";
 
 const Drawer = ({ isOpen, onClose }) => {
-  const {
-    cartItems,
-    removeFromCart,
-    clearCart,
-    increaseQuantity,
-    decreaseQuantity,
-  } = useContext(AppContext);
+  // const {
+  //   cartItems,
+  //   removeFromCart,
+  //   clearCart,
+  //   increaseQuantity,
+  //   decreaseQuantity,
+  // } = useContext(AppContext);
   return (
     <div
       className={`fixed top-0 right-0 h-full w-96 bg-gray-200 transform transition-transform duration-300 ${
@@ -24,7 +24,7 @@ const Drawer = ({ isOpen, onClose }) => {
       </div>
 
       {/* Items */}
-      <div className="p-4 space-y-3 overflow-y-auto h-[75%]">
+      {/* <div className="p-4 space-y-3 overflow-y-auto h-[75%]">
         {cartItems?.length === 0 ? (
           <p className="text-gray-500">Your cart is empty.</p>
         ) : (
@@ -67,7 +67,7 @@ const Drawer = ({ isOpen, onClose }) => {
         )}
       </div>
 
-      {/* Footer */}
+   
       {cartItems?.length > 0 && (
         <div className="p-4 border-t">
           <button
@@ -77,7 +77,7 @@ const Drawer = ({ isOpen, onClose }) => {
             Clear Cart
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
