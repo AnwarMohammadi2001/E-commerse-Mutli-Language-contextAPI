@@ -1,0 +1,13 @@
+/* src/components/PageWrapper.css */
+.page-wrapper {
+  transition: opacity 0.6s ease-in-out;
+  opacity: 1;
+}
+
+.page-wrapper.fade-out {
+  opacity: 0.3;
+}
+
+.page-wrapper.fade-in {
+  opacity: 1;
+}

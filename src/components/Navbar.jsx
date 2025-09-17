@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaShoppingCart, FaMoon, FaSun, FaGlobe } from "react-icons/fa";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { FaShoppingCart } from "react-icons/fa";
 import {
   SignedIn,
   SignedOut,
@@ -10,46 +11,31 @@ import {
 } from "@clerk/clerk-react";
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [cartCount] = useState(2);
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
+  const { lang } = useParams();
+  const defaultLang = "en";
 
   const navItems = [
-    { name: t("home"), path: "/" },
-    { name: t("services"), path: "/services" },
-    { name: t("about"), path: "/about" },
-    { name: t("blog"), path: "/blog" },
-    { name: t("contact"), path: "/contact" },
+    { name: i18n.t("home"), path: "home" },
+    { name: i18n.t("services"), path: "services" },
+    { name: i18n.t("about"), path: "about" },
+    { name: i18n.t("blog"), path: "blog" },
   ];
 
-  // Change language and save in localStorage
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "en" ? "fa" : "en";
-    i18n.changeLanguage(newLang);
-    localStorage.setItem("language", newLang);
+  const getPath = (path) => {
+    if (!lang || lang === defaultLang) return `/${path}`;
+    return `/${lang}/${path}`;
   };
 
-  // Update <html dir="ltr/rtl"> when language changes
-  useEffect(() => {
-    const dir = i18n.language === "fa" ? "rtl" : "ltr";
-    document.documentElement.setAttribute("dir", dir);
-  }, [i18n.language]);
-
   return (
-    <nav
-      className={`flex items-center justify-between px-6 py-3 shadow-md ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-      }`}
-    >
-      {/* Logo */}
+    <nav className="flex items-center justify-between px-6 py-3 shadow-md bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
       <div className="text-2xl font-bold">Tamadon</div>
 
-      {/* Nav Items */}
       <ul className="hidden md:flex gap-6">
-        {navItems.map((item, index) => (
-          <li key={index}>
+        {navItems.map((item, idx) => (
+          <li key={idx}>
             <Link
-              to={item.path}
+              to={getPath(item.path)}
               className="hover:text-blue-500 transition-colors"
             >
               {item.name}
@@ -58,38 +44,18 @@ const Navbar = () => {
         ))}
       </ul>
 
-      {/* Actions */}
       <div className="flex items-center gap-4">
-        {/* Dark Mode Toggle */}
-        <button onClick={() => setDarkMode(!darkMode)} className="text-xl">
-          {darkMode ? <FaSun /> : <FaMoon />}
-        </button>
-
-        {/* Language Toggle */}
-        <button onClick={toggleLanguage} className="flex items-center gap-1">
-          <FaGlobe />
-          <span>{i18n.language.toUpperCase()}</span>
-        </button>
-
-        {/* Shopping Cart */}
+        <LanguageSwitcher />
         <div className="relative">
           <FaShoppingCart className="text-2xl cursor-pointer" />
-          {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-              {cartCount}
-            </span>
-          )}
         </div>
-
-        {/* Clerk Auth */}
         <SignedOut>
           <SignInButton>
-            <button className="px-3 py-1 border rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-              {t("login")}
+            <button className="px-3 py-1 border rounded">
+              {i18n.t("login")}
             </button>
           </SignInButton>
         </SignedOut>
-
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>

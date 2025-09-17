@@ -1,9 +1,14 @@
 import React from "react";
 import AppRoutes from "./routes/AppRoutes";
+import PageWrapper from "./components/PageWrapper";
+
 const App = () => {
   return (
     <div>
-      <AppRoutes />
+      <PageWrapper>
+        {" "}
+        <AppRoutes />
+      </PageWrapper>
     </div>
   );
 };

@@ -1,5 +1,9 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+
 const Home = () => {
-  return <div className="">App</div>;
+  const { t } = useTranslation();
+  return <h1 className="text-3xl font-bold">{t("home")}</h1>;
 };
 
 export default Home;

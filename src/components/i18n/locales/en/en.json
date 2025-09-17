@@ -1,0 +1,10 @@
+{
+  "home": "Home",
+  "services": "Services",
+  "about": "About",
+  "blog": "Blog",
+  "contact": "Contact",
+  "login": "Login",
+  "logout": "Logout",
+  "cart": "Cart"
+}
