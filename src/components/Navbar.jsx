@@ -86,8 +86,8 @@ const Navbar = () => {
         {/* Clerk Auth */}
         <SignedOut>
           <SignInButton>
-            <button className="p-1 border rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-              <FiUser className="" size={24} />
+            <button className="p-1 border border-gray-500 rounded-full hover:bg-gray-200 transition-colors duration-300 dark:hover:bg-gray-700">
+              <FiUser className="text-gray-500" size={24}  />
             </button>
           </SignInButton>
         </SignedOut>
