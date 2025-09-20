@@ -18,14 +18,14 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <DarkModeProvider>
-        <LanguageProvider>
-          <AppProvider>
+      <AppProvider>
+        <DarkModeProvider>
+          <LanguageProvider>
             {" "}
             <App />
-          </AppProvider>
-        </LanguageProvider>
-      </DarkModeProvider>
+          </LanguageProvider>
+        </DarkModeProvider>
+      </AppProvider>
     </ClerkProvider>
   </StrictMode>
 );

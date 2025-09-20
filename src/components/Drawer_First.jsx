@@ -1,16 +1,24 @@
 import React, { useContext } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
-import { AddContext } from "../Context/AddContext";
+import { AppContext } from "../Context/AppContext"; // ✅ FIXED import
 
 const Drawer_First = ({ isOpen, setIsOpen }) => {
-  // const {
-  //   cartItems,
-  //   removeFromCart,
-  //   clearCart,
-  //   increaseQuantity,
-  //   decreaseQuantity,
-  // } = useContext(AddContext);
+  const context = useContext(AppContext);
+
+  // guard in case context is missing
+  if (!context) {
+    return null; // or <p>Context not available</p>
+  }
+
+  const {
+    cartItems,
+    removeFromCart,
+    clearCart,
+    increaseQuantity,
+    decreaseQuantity,
+  } = context;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -21,7 +29,7 @@ const Drawer_First = ({ isOpen, setIsOpen }) => {
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/50"
+            className="fixed inset-0 bg-black/50 "
             onClick={() => setIsOpen(false)}
           />
 
@@ -30,7 +38,7 @@ const Drawer_First = ({ isOpen, setIsOpen }) => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.4 }}
-            className="fixed top-0 right-0 bottom-0 h-screen w-96 bg-white/20 backdrop-blur-lg shadow-lg z-40 flex flex-col"
+            className="fixed top-0 right-0 bottom-0 h-screen w-96 bg-white backdrop-blur-lg shadow-lg z-40 flex flex-col"
           >
             {/* Header */}
             <div className="flex justify-between items-center bg-black p-4 border-b">
@@ -43,12 +51,12 @@ const Drawer_First = ({ isOpen, setIsOpen }) => {
               </button>
             </div>
 
-            {/* Cart items */}
-            {/* <div className="p-4 space-y-3 overflow-y-auto flex-1">
+            {/* Cart Items */}
+            <div className="p-4 space-y-3 overflow-y-auto flex-1">
               {cartItems?.length === 0 ? (
                 <p className="p-4">Your cart is empty.</p>
               ) : (
-                cartItems?.map((item) => (
+                cartItems.map((item) => (
                   <div
                     key={item.id}
                     className="flex items-center justify-between border-b pb-2"
@@ -88,10 +96,10 @@ const Drawer_First = ({ isOpen, setIsOpen }) => {
                   </div>
                 ))
               )}
-            </div> */}
+            </div>
 
             {/* Footer */}
-            {/* {cartItems?.length > 0 && (
+            {cartItems?.length > 0 && (
               <div className="p-4 border-t space-y-3">
                 <p className="text-right font-semibold">
                   Subtotal: $
@@ -106,7 +114,7 @@ const Drawer_First = ({ isOpen, setIsOpen }) => {
                   Clear Cart
                 </button>
               </div>
-            )} */}
+            )}
           </motion.div>
         </>
       )}

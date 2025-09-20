@@ -8,7 +8,7 @@ import "react-medium-image-zoom/dist/styles.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { product } = useContext(AppContext);
+  const { product, addToCart } = useContext(AppContext);
 
   // Find the product by ID
   const productDetail = product.find((p) => p.id === parseInt(id));
@@ -116,7 +116,10 @@ const ProductDetails = () => {
 
           {/* Action Buttons */}
           <div className="flex gap-4 mt-4">
-            <button className="flex-1 bg-black text-white py-3 cursor-pointer rounded-xl transition font-semibold">
+            <button
+              onClick={() => addToCart(productDetail)}
+              className="flex-1 bg-black text-white py-3 cursor-pointer rounded-xl transition font-semibold"
+            >
               Add to Cart
             </button>
             <button className="flex-1 border border-black text-black py-3 rounded-xl cursor-pointer transition font-semibold">

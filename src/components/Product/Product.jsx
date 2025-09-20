@@ -26,7 +26,7 @@ const Product = () => {
       : "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5";
 
   return (
-    <div>
+    <div className="p-6">
       <HeaderProduct />
       <div className="flex gap-5">
         {/* Sidebar - Sticky */}

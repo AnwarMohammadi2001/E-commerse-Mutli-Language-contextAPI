@@ -11,7 +11,7 @@ const HeaderProduct = () => {
   }, [product]);
 
   return (
-    <div className="w-full bg-white border-b border-gray-300 p-4 mb-6 flex flex-col md:grid grid-cols-2 md:items-center md:justify-between gap-4">
+    <div className="w-full bg-white border-b border-gray-300 pb-4 mb-6 flex flex-col md:grid grid-cols-2 md:items-center md:justify-between gap-4">
       {/* Categories */}
       <div className="flex flex-wrap gap-2">
         {categories.map((cat) => (
