@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BsHandbag } from "react-icons/bs";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { ImLeaf } from "react-icons/im";
 import { FiUser } from "react-icons/fi";
+import { HiOutlineHeart } from "react-icons/hi";
+import { CiHeart } from "react-icons/ci";
 import {
   SignedIn,
   SignedOut,
@@ -22,8 +24,9 @@ const Navbar = () => {
   const { i18n } = useTranslation();
   const { language } = useContext(LanguageContext);
   const defaultLang = "en";
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
-  const { cartItems = [] } = useContext(AppContext) || {}; // default empty
+  const { cartItems = [], addToWishlist } = useContext(AppContext) || {}; // default empty
 
   const navItems = [
     { name: i18n.t("home"), path: "/" },
@@ -73,6 +76,9 @@ const Navbar = () => {
 
         <DarkModeToggler />
         <LanguageSwitcher />
+        <SignedIn>
+          <CiHeart onClick={()=> navigate('/wishlist')} className="" size={28} />
+        </SignedIn>
 
         {/* Shopping Cart */}
         <div
