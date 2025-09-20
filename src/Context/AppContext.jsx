@@ -1,63 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [productLoading, setProductLoading] = useState(false);
 
-  // Add item to cart
-  const addToCart = (product) => {
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+  // Fetch Product From API
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setProductLoading(true);
+        const url = "https://fakestoreapi.com/products";
+        const res = await fetch(url);
+        const result = await res.json();
+        setProduct(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setProductLoading(false);
       }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  };
+    };
 
-  // Increase quantity
-  const increaseQuantity = (id) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  // Decrease quantity
-  const decreaseQuantity = (id) => {
-    setCartItems(
-      (prev) =>
-        prev
-          .map((item) =>
-            item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-          )
-          .filter((item) => item.quantity > 0) // remove item if quantity becomes 0
-    );
-  };
-
-  // Remove item completely
-  const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  // Clear all
-  const clearCart = () => {
-    setCartItems([]);
-  };
+    fetchProduct();
+  }, []);
 
   const value = {
-    cartItems,
-    addToCart,
-    removeFromCart,
-    clearCart,
-    increaseQuantity,
-    decreaseQuantity,
+    product,
+    productLoading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

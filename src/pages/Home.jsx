@@ -10,36 +10,22 @@ import {
   SiTypescript,
   SiTailwindcss,
 } from "react-icons/si";
-
-const techLogos = [
-  { node: <SiReact />, title: "React", href: "https://react.dev" },
-  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
-  {
-    node: <SiTypescript />,
-    title: "TypeScript",
-    href: "https://www.typescriptlang.org",
-  },
-  {
-    node: <SiTailwindcss />,
-    title: "Tailwind CSS",
-    href: "https://tailwindcss.com",
-  },
-];
+import Product from "../components/Product/Product";
 
 // Alternative with image sources
 const imageLogos = [
   {
-    src: "/logos/company1.png",
+    src: "logo1.png",
     alt: "Company 1",
     href: "https://company1.com",
   },
   {
-    src: "/logos/company2.png",
+    src: "logo2.png",
     alt: "Company 2",
     href: "https://company2.com",
   },
   {
-    src: "/logos/company3.png",
+    src: "logo3.png",
     alt: "Company 3",
     href: "https://company3.com",
   },
@@ -108,9 +94,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-[250px] relative overflow-hidden max-w-7xl mx-auto mt-14">
+      <div className="h-[100px]  relative overflow-hidden max-w-7xl mx-auto mt-14">
         <LogoLoop
-          logos={techLogos}
+          logos={imageLogos}
           speed={100}
           direction="left"
           logoHeight={48}
@@ -122,6 +108,7 @@ const Home = () => {
           ariaLabel="Technology partners"
         />
       </div>
+      <Product />
     </div>
   );
 };
