@@ -1,36 +1,93 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Star } from "lucide-react";
+import { AppContext } from "../../Context/AppContext";
+import Breadcrumb from "../Breadcrumb";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const ProductDetails = () => {
+  const { id } = useParams();
+  const { product } = useContext(AppContext);
+
+  // Find the product by ID
+  const productDetail = product.find((p) => p.id === parseInt(id));
+  const [mainImage, setMainImage] = useState(productDetail?.image);
+
+  if (!productDetail) return <p className="text-center mt-10">Loading...</p>;
+
+  // Example: Additional images for gallery
+  const additionalImages = [
+    productDetail.image,
+    "https://via.placeholder.com/400x400?text=Alt+Image+1",
+    "https://via.placeholder.com/400x400?text=Alt+Image+2",
+    "https://via.placeholder.com/400x400?text=Alt+Image+3",
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="min-h-screen mt-[100px] bg-gray-50 p-6 md:px-12 lg:px-20">
+      <Breadcrumb />
+      <div className="grid md:grid-cols-2 gap-10 bg-white overflow-hidden p-6 md:p-10 ">
         {/* Product Image */}
-        <div className="flex items-center justify-center bg-gray-100 p-6">
-          <img
-            src="https://via.placeholder.com/500"
-            alt="Product"
-            className="w-full h-auto rounded-xl object-cover"
-          />
+        <div>
+          <div className="flex items-center justify-center bg-gray-100 p-6 rounded-xl mb-4">
+            <Zoom>
+              <img
+                src={mainImage}
+                alt={productDetail.title}
+                className="h-80 md:h-[400px] object-contain rounded-xl cursor-pointer"
+              />
+            </Zoom>
+          </div>
+
+          {/* Thumbnail Gallery */}
+          <div className="flex gap-3 justify-center">
+            {additionalImages.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Thumbnail ${index}`}
+                className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 ${
+                  mainImage === img
+                    ? "border-blue-600"
+                    : "border-gray-300 hover:border-blue-500"
+                }`}
+                onClick={() => setMainImage(img)}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Product Details */}
-        <div className="p-6 flex flex-col justify-between">
+        <div className="flex flex-col justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Modern Sneaker
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              {productDetail.title}
             </h1>
-            <p className="text-lg text-gray-600 mb-4">
-              A stylish and comfortable sneaker for everyday wear. Perfectly
-              crafted with premium materials.
+            <p className="text-sm text-gray-500 mb-2 uppercase tracking-wide">
+              Category: {productDetail.category}
             </p>
 
-            <p className="text-2xl font-semibold text-blue-600 mb-6">$120.00</p>
+            {/* Rating */}
+            <div className="flex items-center gap-2 mb-4">
+              <Star className="text-yellow-500" size={20} />
+              <span className="font-semibold">{productDetail.rating.rate}</span>
+              <span className="text-gray-500">
+                ({productDetail.rating.count} reviews)
+              </span>
+            </div>
+
+            <p className="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">
+              ${productDetail.price}
+            </p>
+
+            <p className="text-gray-700 mb-6">{productDetail.description}</p>
 
             {/* Sizes */}
             <div className="mb-6">
               <h2 className="font-semibold text-gray-700 mb-2">Choose Size</h2>
-              <div className="flex gap-3">
-                {["38", "39", "40", "41", "42", "43"].map((size) => (
+              <div className="flex gap-3 flex-wrap">
+                {["S", "M", "L", "XL", "XXL"].map((size) => (
                   <button
                     key={size}
                     className="px-4 py-2 border rounded-lg text-gray-700 hover:bg-blue-600 hover:text-white transition"
@@ -45,19 +102,24 @@ const ProductDetails = () => {
             <div className="mb-6">
               <h2 className="font-semibold text-gray-700 mb-2">Choose Color</h2>
               <div className="flex gap-3">
-                <span className="w-8 h-8 bg-black rounded-full cursor-pointer border-2 border-gray-300 hover:border-blue-600"></span>
-                <span className="w-8 h-8 bg-red-500 rounded-full cursor-pointer border-2 border-gray-300 hover:border-blue-600"></span>
-                <span className="w-8 h-8 bg-blue-500 rounded-full cursor-pointer border-2 border-gray-300 hover:border-blue-600"></span>
+                {["bg-black", "bg-red-500", "bg-blue-500", "bg-green-500"].map(
+                  (color) => (
+                    <span
+                      key={color}
+                      className={`${color} w-8 h-8 rounded-full cursor-pointer border-2 border-gray-300 hover:border-blue-600`}
+                    ></span>
+                  )
+                )}
               </div>
             </div>
           </div>
 
-          {/* Buttons */}
-          <div className="flex gap-4">
-            <button className="flex-1 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition">
+          {/* Action Buttons */}
+          <div className="flex gap-4 mt-4">
+            <button className="flex-1 bg-black text-white py-3 cursor-pointer rounded-xl transition font-semibold">
               Add to Cart
             </button>
-            <button className="flex-1 border border-blue-600 text-blue-600 py-3 rounded-xl hover:bg-blue-50 transition">
+            <button className="flex-1 border border-black text-black py-3 rounded-xl cursor-pointer transition font-semibold">
               Buy Now
             </button>
           </div>

@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout";
 import PageWrapper from "../components/PageWrapper";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
+import ProductDetails from "../components/Product/ProductDetails";
 
 const LanguageWrapper = ({ children, lang }) => {
   const { i18n } = useTranslation();
@@ -38,6 +39,7 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<Home />} />
+          <Route path="/product/:id/:title" element={<ProductDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

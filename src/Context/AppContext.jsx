@@ -5,6 +5,7 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [product, setProduct] = useState([]);
   const [productLoading, setProductLoading] = useState(false);
+  const [layout, setLayout] = useState("grid-5"); // default 4-column grid
 
   // Fetch Product From API
   useEffect(() => {
@@ -28,6 +29,8 @@ export const AppProvider = ({ children }) => {
   const value = {
     product,
     productLoading,
+    layout,
+    setLayout,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
