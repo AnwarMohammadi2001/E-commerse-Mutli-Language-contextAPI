@@ -24,9 +24,13 @@ const Navbar = () => {
   const { i18n } = useTranslation();
   const { language } = useContext(LanguageContext);
   const defaultLang = "en";
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const { cartItems = [], addToWishlist } = useContext(AppContext) || {}; // default empty
+  const {
+    cartItems = [],
+    addToWishlist,
+    wishlist,
+  } = useContext(AppContext) || {}; // default empty
 
   const navItems = [
     { name: i18n.t("home"), path: "/" },
@@ -76,9 +80,20 @@ const Navbar = () => {
 
         <DarkModeToggler />
         <LanguageSwitcher />
-        <SignedIn>
-          <CiHeart onClick={()=> navigate('/wishlist')} className="" size={28} />
-        </SignedIn>
+        <div className="relative">
+          <SignedIn>
+            <CiHeart
+              onClick={() => navigate("/wishlist")}
+              className=""
+              size={28}
+            />
+            {wishlist.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {wishlist.length}
+              </span>
+            )}
+          </SignedIn>
+        </div>
 
         {/* Shopping Cart */}
         <div

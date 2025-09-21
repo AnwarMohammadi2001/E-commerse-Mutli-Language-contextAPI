@@ -109,6 +109,7 @@ export const AppProvider = ({ children }) => {
 
   const removeFromWishlist = (id) =>
     setWishlist((prev) => prev.filter((item) => item.id !== id));
+  const clearWishList = () => setWishlist([]);
 
   const value = {
     product,
@@ -124,6 +125,7 @@ export const AppProvider = ({ children }) => {
     wishlist,
     addToWishlist,
     removeFromWishlist,
+    clearWishList,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
